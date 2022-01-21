@@ -112,7 +112,8 @@ class Configs:
         print("Opening new tab:", now.strftime("%d/%m/%Y %H:%M:%S"))
         pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2)
         pyautogui.hotkey('ctrl', 't')
-        pyautogui.click(button='left', clicks=1)
+        time.sleep(2)
+        pyautogui.click(button='left', clicks=2, interval=2)
         time.sleep(10)
         pyautogui.hotkey('ctrl', 'w')
         self.countNewTabAds += 1
