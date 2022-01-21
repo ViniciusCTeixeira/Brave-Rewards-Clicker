@@ -51,7 +51,10 @@ class Utilities:
             f = open(path, "r")
             data = None
             if isJson is True:
-                data = json.loads(f.read())
+                try:
+                    data = json.loads(f.read())
+                except json.decoder.JSONDecodeError:
+                    return False
 
             if isJson is False:
                 data = f.read()

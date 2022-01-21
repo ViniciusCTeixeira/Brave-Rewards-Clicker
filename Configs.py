@@ -1,6 +1,6 @@
 import pyautogui
 import time
-
+from datetime import datetime
 from Utilities import Utilities
 
 
@@ -11,7 +11,9 @@ class Configs:
         self.braveIconPosition1 = None
         self.braveIconPosition2 = None
         self.screenSize = None
+        self.newTabAds = 0
         self.countAds = 0
+        self.countNewTabAds = 0
         self.version = 1.5
         self.utilities = Utilities()
 
@@ -28,6 +30,7 @@ class Configs:
             print("Settings not found!")
             self.create_config()
 
+        time.sleep(1)
         print("Running ...")
 
     def load_config(self):
@@ -63,11 +66,13 @@ class Configs:
                 print("Settings are invalid!!!")
                 self.create_config()
 
+            if bool(data['data']['newTabAds']):
+                self.newTabAds = data['data']['newTabAds']
+
+            print("Settings loaded!")
         except KeyError:
             print("Settings are invalid!!!")
             self.create_config()
-
-        print("Settings loaded!")
 
     def create_config(self):
         time.sleep(1)
@@ -80,6 +85,9 @@ class Configs:
         self.braveIconPosition2 = pyautogui.position()
         self.braveIconColor2 = pyautogui.screenshot().getpixel(self.braveIconPosition2)
         self.screenSize = pyautogui.size()
+        newTab = input("Ads in new tab? y/n")
+        if newTab == "y":
+            self.newTabAds = 1
         print("Creating settings file ...")
         time.sleep(1)
         data = {
@@ -89,7 +97,8 @@ class Configs:
                 "braveIconPosition1": self.braveIconPosition1,
                 "braveIconColor2": self.braveIconColor2,
                 "braveIconPosition2": self.braveIconPosition2,
-                "screenSize": self.screenSize
+                "screenSize": self.screenSize,
+                "newTabAds": self.newTabAds
             }
         }
         if self.utilities.create_file(self.utilities.settingsPath, data, True) is False:
@@ -97,6 +106,16 @@ class Configs:
             exit(1)
         else:
             print("Created in: ", self.utilities.settingsPath)
+
+    def open_brave_new_tab(self):
+        now = datetime.now()
+        print("Opening new tab:", now.strftime("%d/%m/%Y %H:%M:%S"))
+        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2)
+        pyautogui.hotkey('ctrl', 't')
+        pyautogui.click(button='left', clicks=1)
+        time.sleep(4)
+        pyautogui.hotkey('ctrl', 'w')
+        self.countNewTabAds += 1
 
     def check_pixel(self):
         try:
@@ -113,12 +132,12 @@ class Configs:
             return False
 
     def open_brave_notify(self):
-        print("Opening ad ...")
-        pyautogui.moveTo(self.braveIconPosition1[0], self.braveIconPosition1[1], duration=2)
-        pyautogui.click(interval=5, button='left', clicks=2)
-        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=2)
+        now = datetime.now()
+        print("Opening ad:", now.strftime("%d/%m/%Y %H:%M:%S"))
+        pyautogui.moveTo(self.braveIconPosition1[0], self.braveIconPosition1[1], duration=1)
+        pyautogui.click(interval=2, button='left', clicks=2)
+        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=1)
         time.sleep(10)
-        pyautogui.scroll(10)
+        pyautogui.scroll(-10)
         pyautogui.hotkey('ctrl', 'w')
         self.countAds += 1
-        print("Ads:", self.countAds)
