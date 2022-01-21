@@ -113,7 +113,7 @@ class Configs:
         pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2)
         pyautogui.hotkey('ctrl', 't')
         pyautogui.click(button='left', clicks=1)
-        time.sleep(4)
+        time.sleep(10)
         pyautogui.hotkey('ctrl', 'w')
         self.countNewTabAds += 1
 
