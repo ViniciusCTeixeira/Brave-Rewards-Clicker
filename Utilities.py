@@ -4,7 +4,7 @@ import os
 
 class Utilities:
     def __init__(self):
-        self.rootPath = os.path.abspath(os.path.join(os.path.dirname(__file__), "src", ".."))
+        self.rootPath = os.path.abspath(os.curdir)
         self.settingsPath = os.path.join(self.rootPath, "settings.json")
 
     def settings_file_exist(self):

@@ -16,12 +16,13 @@ class Configs:
     def check_config(self):
         print("Loading settings ...")
         time.sleep(1)
-        if self.utilities.settings_file_exist():
+        if self.utilities.settings_file_exist() is True:
             self.load_config()
         else:
             self.create_config()
 
         print("Running ...")
+
     def load_config(self):
         print("Settings loaded!")
         data = self.utilities.load_file(self.utilities.settingsPath, True)
@@ -50,6 +51,8 @@ class Configs:
         if self.utilities.create_file(self.utilities.settingsPath, data, True) is False:
             print("Error on creating the file!!!")
             exit(1)
+        else:
+            print("Created in: ", self.utilities.settingsPath)
 
     def check_pixel(self):
         try:
@@ -64,9 +67,11 @@ class Configs:
             return False
 
     def open_brave_notify(self):
-        pyautogui.click(x=self.braveIconPosition[0], y=self.braveIconPosition[1], interval=5, button='left', clicks=2)
+        pyautogui.moveTo(self.braveIconPosition[0], self.braveIconPosition[1], duration=2)
+        pyautogui.click(interval=5, button='left', clicks=2)
         pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=2)
         time.sleep(10)
         pyautogui.scroll(10)
         pyautogui.hotkey('ctrl', 'w')
         self.countAds += 1
+        print("Total Ads:", self.countAds)
