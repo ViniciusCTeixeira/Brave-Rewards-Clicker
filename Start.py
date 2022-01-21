@@ -17,6 +17,3 @@ class Main:
             if self.configs.check_pixel() is True:
                 self.configs.open_brave_notify()
             time.sleep(5)
-
-    def get_total_ads(self):
-        return self.configs.countAds

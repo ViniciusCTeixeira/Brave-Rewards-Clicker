@@ -10,6 +10,18 @@ class Utilities:
     def settings_file_exist(self):
         return os.path.exists(self.settingsPath)
 
+    def settings_file_version(self, version):
+        try:
+            f = open(self.settingsPath, "r")
+            data = json.loads(f.read())
+            f.close()
+            if data['v'] == version:
+                return True
+            else:
+                return False
+        except IOError:
+            return False
+
     @staticmethod
     def create_file(path, content, isJson=False):
         try:

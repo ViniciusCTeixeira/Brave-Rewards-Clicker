@@ -5,4 +5,4 @@ if __name__ == "__main__":
     try:
         main.start()
     except KeyboardInterrupt:
-        print("Total Ads:", main.get_total_ads())
+        print("Goodbye!")
