@@ -15,7 +15,7 @@ class Main:
 
         if self.configs.newTabAds:
             print("Open Brave to use ads in new tab")
-            i = 5
+            i = 15
             while i > 0:
                 print(i, "second(s) to start", end="\r")
                 i -= 1
