@@ -13,11 +13,20 @@ class Utilities:
     def settings_file_version(self, version):
         try:
             f = open(self.settingsPath, "r")
-            data = json.loads(f.read())
+
+            try:
+                data = json.loads(f.read())
+            except json.decoder.JSONDecodeError:
+                return False
+
             f.close()
-            if data['v'] == version:
-                return True
-            else:
+
+            try:
+                if data['v'] == version:
+                    return True
+                else:
+                    return False
+            except KeyError:
                 return False
         except IOError:
             return False

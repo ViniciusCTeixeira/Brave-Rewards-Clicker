@@ -1,5 +1,4 @@
 import pyautogui
-import sys
 import time
 
 from Utilities import Utilities
@@ -23,23 +22,54 @@ class Configs:
             if self.utilities.settings_file_version(self.version) is True:
                 self.load_config()
             else:
+                print("Settings are invalid!!!")
                 self.create_config()
         else:
+            print("Settings not found!")
             self.create_config()
 
         print("Running ...")
 
     def load_config(self):
-        print("Settings loaded!")
         data = self.utilities.load_file(self.utilities.settingsPath, True)
-        self.braveIconColor1 = data['data']['braveIconColor1']
-        self.braveIconColor2 = data['data']['braveIconColor2']
-        self.braveIconPosition1 = data['data']['braveIconPosition1']
-        self.braveIconPosition2 = data['data']['braveIconPosition2']
-        self.screenSize = data['data']['screenSize']
+        try:
+            if bool(data['data']['braveIconColor1']):
+                self.braveIconColor1 = data['data']['braveIconColor1']
+            else:
+                print("Settings are invalid!!!")
+                self.create_config()
+
+            if bool(data['data']['braveIconColor2']):
+                self.braveIconColor2 = data['data']['braveIconColor2']
+            else:
+                print("Settings are invalid!!!")
+                self.create_config()
+
+            if bool(data['data']['braveIconPosition1']):
+                self.braveIconPosition1 = data['data']['braveIconPosition1']
+            else:
+                print("Settings are invalid!!!")
+                self.create_config()
+
+            if bool(data['data']['braveIconPosition2']):
+                self.braveIconPosition2 = data['data']['braveIconPosition2']
+            else:
+                print("Settings are invalid!!!")
+                self.create_config()
+
+            if bool(data['data']['screenSize']):
+                self.screenSize = data['data']['screenSize']
+            else:
+                print("Settings are invalid!!!")
+                self.create_config()
+
+        except KeyError:
+            print("Settings are invalid!!!")
+            self.create_config()
+
+        print("Settings loaded!")
 
     def create_config(self):
-        print("Settings not found!")
         time.sleep(1)
         print("Creating settings ...")
         time.sleep(1)
