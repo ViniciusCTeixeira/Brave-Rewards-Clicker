@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 
 class Utilities:
@@ -64,3 +65,13 @@ class Utilities:
             return data
         except IOError:
             return False
+
+    @staticmethod
+    def check_fouc():
+        active_window_name = None
+        if sys.platform in ['Windows', 'win32', 'cygwin']:
+            import win32gui
+            window = win32gui.GetForegroundWindow()
+            active_window_name = win32gui.GetWindowText(window)
+
+        return active_window_name

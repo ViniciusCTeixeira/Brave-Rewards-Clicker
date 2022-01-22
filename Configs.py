@@ -1,5 +1,6 @@
 import pyautogui
 import time
+import sys
 from datetime import datetime
 from Utilities import Utilities
 
@@ -68,9 +69,10 @@ class Configs:
                     print("Settings are invalid!!!")
                     self.create_config()
 
-                if bool(data['data']['newTabAds']):
-                    self.newTabAds = data['data']['newTabAds']
-                    self.newTabAdsPosition = data['data']['newTabAdsPosition']
+                if sys.platform in ['Windows', 'win32', 'cygwin']:
+                    if bool(data['data']['newTabAds']):
+                        self.newTabAds = data['data']['newTabAds']
+                        self.newTabAdsPosition = data['data']['newTabAdsPosition']
 
                 print("Settings loaded!")
             except KeyError:
@@ -91,11 +93,12 @@ class Configs:
         self.braveIconPosition2 = pyautogui.position()
         self.braveIconColor2 = pyautogui.screenshot().getpixel(self.braveIconPosition2)
         self.screenSize = pyautogui.size()
-        newTab = input("Ads in new tab? y/n")
-        if newTab == "y":
-            self.newTabAds = 1
-            input("Hover over the link part of the new page and press the Enter key")
-            self.newTabAdsPosition = pyautogui.position()
+        if sys.platform in ['Windows', 'win32', 'cygwin']:
+            newTab = input("Ads in new tab? y/n")
+            if newTab == "y":
+                self.newTabAds = 1
+                input("Hover over the link part of the new page and press the Enter key")
+                self.newTabAdsPosition = pyautogui.position()
         print("Creating settings file ...")
         time.sleep(1)
         data = {
@@ -132,8 +135,6 @@ class Configs:
         pyautogui.hotkey('ctrl', 'w')
 
     def check_pixel(self):
-        now = datetime.now()
-        print("checking pixel:", now.strftime("%d/%m/%Y %H:%M:%S"))
         try:
             pix_val1 = pyautogui.pixel(self.braveIconPosition1[0], self.braveIconPosition1[1])
             pix_val2 = pyautogui.pixel(self.braveIconPosition2[0], self.braveIconPosition2[1])
