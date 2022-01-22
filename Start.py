@@ -16,12 +16,14 @@ class Main:
 
         if sys.platform in ['Windows', 'win32', 'cygwin']:
             if self.configs.newTabAds:
-                print("Open Brave to use ads in new tab")
-                i = 15
-                while i > 0:
-                    print(i, "second(s) to start", end="\r")
-                    i -= 1
-                    time.sleep(1)
+                print()
+                print("To use the function 'ad in a new tab' Brave must be in focus")
+
+        i = 15
+        while i >= 0:
+            print(i, "second(s) to start", end="\r")
+            i -= 1
+            time.sleep(1)
 
         print()
 
