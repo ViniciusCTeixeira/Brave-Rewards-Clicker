@@ -24,11 +24,10 @@ class Main:
             print()
 
         while True:
-            if self.configs.newTabAds:
-                self.configs.open_brave_new_tab()
-
             if self.configs.check_pixel() is True:
                 self.configs.open_brave_notify()
+            if self.configs.newTabAds:
+                self.configs.open_brave_new_tab()
             time.sleep(1)
 
     def get_count_ads(self):
