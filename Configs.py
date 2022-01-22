@@ -132,6 +132,8 @@ class Configs:
         pyautogui.hotkey('ctrl', 'w')
 
     def check_pixel(self):
+        now = datetime.now()
+        print("checking pixel:", now.strftime("%d/%m/%Y %H:%M:%S"))
         try:
             pix_val1 = pyautogui.pixel(self.braveIconPosition1[0], self.braveIconPosition1[1])
             pix_val2 = pyautogui.pixel(self.braveIconPosition2[0], self.braveIconPosition2[1])
