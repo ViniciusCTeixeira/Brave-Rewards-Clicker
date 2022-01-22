@@ -11,10 +11,11 @@ class Configs:
         self.braveIconPosition1 = None
         self.braveIconPosition2 = None
         self.screenSize = None
+        self.newTabAdsPosition = None
         self.newTabAds = 0
         self.countAds = 0
         self.countNewTabAds = 0
-        self.version = 1.5
+        self.version = 1.7
         self.utilities = Utilities()
 
     def check_config(self):
@@ -35,42 +36,47 @@ class Configs:
 
     def load_config(self):
         data = self.utilities.load_file(self.utilities.settingsPath, True)
-        try:
-            if bool(data['data']['braveIconColor1']):
-                self.braveIconColor1 = data['data']['braveIconColor1']
-            else:
+        if data is not False:
+            try:
+                if bool(data['data']['braveIconColor1']):
+                    self.braveIconColor1 = data['data']['braveIconColor1']
+                else:
+                    print("Settings are invalid!!!")
+                    self.create_config()
+
+                if bool(data['data']['braveIconColor2']):
+                    self.braveIconColor2 = data['data']['braveIconColor2']
+                else:
+                    print("Settings are invalid!!!")
+                    self.create_config()
+
+                if bool(data['data']['braveIconPosition1']):
+                    self.braveIconPosition1 = data['data']['braveIconPosition1']
+                else:
+                    print("Settings are invalid!!!")
+                    self.create_config()
+
+                if bool(data['data']['braveIconPosition2']):
+                    self.braveIconPosition2 = data['data']['braveIconPosition2']
+                else:
+                    print("Settings are invalid!!!")
+                    self.create_config()
+
+                if bool(data['data']['screenSize']):
+                    self.screenSize = data['data']['screenSize']
+                else:
+                    print("Settings are invalid!!!")
+                    self.create_config()
+
+                if bool(data['data']['newTabAds']):
+                    self.newTabAds = data['data']['newTabAds']
+                    self.newTabAdsPosition = data['data']['newTabAdsPosition']
+
+                print("Settings loaded!")
+            except KeyError:
                 print("Settings are invalid!!!")
                 self.create_config()
-
-            if bool(data['data']['braveIconColor2']):
-                self.braveIconColor2 = data['data']['braveIconColor2']
-            else:
-                print("Settings are invalid!!!")
-                self.create_config()
-
-            if bool(data['data']['braveIconPosition1']):
-                self.braveIconPosition1 = data['data']['braveIconPosition1']
-            else:
-                print("Settings are invalid!!!")
-                self.create_config()
-
-            if bool(data['data']['braveIconPosition2']):
-                self.braveIconPosition2 = data['data']['braveIconPosition2']
-            else:
-                print("Settings are invalid!!!")
-                self.create_config()
-
-            if bool(data['data']['screenSize']):
-                self.screenSize = data['data']['screenSize']
-            else:
-                print("Settings are invalid!!!")
-                self.create_config()
-
-            if bool(data['data']['newTabAds']):
-                self.newTabAds = data['data']['newTabAds']
-
-            print("Settings loaded!")
-        except KeyError:
+        else:
             print("Settings are invalid!!!")
             self.create_config()
 
@@ -88,6 +94,8 @@ class Configs:
         newTab = input("Ads in new tab? y/n")
         if newTab == "y":
             self.newTabAds = 1
+            input("Hover over the link part of the new page and press the Enter key")
+            self.newTabAdsPosition = pyautogui.position()
         print("Creating settings file ...")
         time.sleep(1)
         data = {
@@ -98,7 +106,8 @@ class Configs:
                 "braveIconColor2": self.braveIconColor2,
                 "braveIconPosition2": self.braveIconPosition2,
                 "screenSize": self.screenSize,
-                "newTabAds": self.newTabAds
+                "newTabAds": self.newTabAds,
+                "newTabAdsPosition": self.newTabAdsPosition
             }
         }
         if self.utilities.create_file(self.utilities.settingsPath, data, True) is False:
@@ -108,15 +117,19 @@ class Configs:
             print("Created in: ", self.utilities.settingsPath)
 
     def open_brave_new_tab(self):
+        self.countNewTabAds += 1
         now = datetime.now()
         print("Opening new tab:", now.strftime("%d/%m/%Y %H:%M:%S"))
-        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2)
+        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=1)
         pyautogui.hotkey('ctrl', 't')
-        time.sleep(2)
-        pyautogui.click(button='left', clicks=2, interval=2)
-        time.sleep(10)
+        time.sleep(5)
+        pyautogui.moveTo(self.newTabAdsPosition[0], self.newTabAdsPosition[1], duration=1)
+        pyautogui.click(button='left', clicks=1)
+        pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=1)
+        time.sleep(5)
+        pyautogui.scroll(-5000)
+        time.sleep(1)
         pyautogui.hotkey('ctrl', 'w')
-        self.countNewTabAds += 1
 
     def check_pixel(self):
         try:
@@ -133,12 +146,13 @@ class Configs:
             return False
 
     def open_brave_notify(self):
+        self.countAds += 1
         now = datetime.now()
         print("Opening ad:", now.strftime("%d/%m/%Y %H:%M:%S"))
         pyautogui.moveTo(self.braveIconPosition1[0], self.braveIconPosition1[1], duration=1)
         pyautogui.click(interval=2, button='left', clicks=2)
         pyautogui.moveTo(self.screenSize[0] / 2, self.screenSize[1] / 2, duration=1)
-        time.sleep(10)
-        pyautogui.scroll(-10)
+        time.sleep(5)
+        pyautogui.scroll(-5000)
+        time.sleep(1)
         pyautogui.hotkey('ctrl', 'w')
-        self.countAds += 1
