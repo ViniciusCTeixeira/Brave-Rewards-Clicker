@@ -30,13 +30,16 @@ class Configs:
             if self.utilities.settings_file_version(self.version) is True:
                 self.load_config()
             else:
+                print()
                 print("Settings are invalid!!!")
                 self.create_config()
         else:
+            print()
             print("Settings not found!")
             self.create_config()
 
         time.sleep(1)
+        print()
         print("Running ...")
 
     def load_config(self):
@@ -46,16 +49,19 @@ class Configs:
                 if bool(data['data']['screenSize']):
                     self.screenSize = data['data']['screenSize']
                 else:
+                    print()
                     print("Settings are invalid!!!")
                     self.create_config()
 
                 if bool(data['data']['theme']):
-                    if data['data']['theme'] is darkdetect.theme():
+                    if data['data']['theme'] == darkdetect.theme():
                         self.theme = data['data']['theme']
                     else:
+                        print()
                         print("Settings are invalid!!!")
                         self.create_config()
                 else:
+                    print()
                     print("Settings are invalid!!!")
                     self.create_config()
 
@@ -63,16 +69,20 @@ class Configs:
                     self.newTabAds = data['data']['newTabAds']
                     self.newTabAdsPosition = data['data']['newTabAdsPosition']
 
+                print()
                 print("Settings loaded!")
             except KeyError:
+                print()
                 print("Settings are invalid!!!")
                 self.create_config()
         else:
+            print()
             print("Settings are invalid!!!")
             self.create_config()
 
     def create_config(self):
         time.sleep(1)
+        print()
         print("Creating settings ...")
         time.sleep(1)
         self.theme = darkdetect.theme()
@@ -96,14 +106,17 @@ class Configs:
         if self.utilities.create_file(self.utilities.settingsPath, data, True) is False:
             if os.path.exists(self.utilities.settingsPath):
                 os.remove(self.utilities.settingsPath)
+            print()
             print("Error on creating the file!!!")
             exit(1)
         elif self.utilities.create_file_image(self.utilities.settingsImagePath, self.brave) is False:
             if os.path.exists(self.utilities.settingsImagePath):
                 os.remove(self.utilities.settingsImagePath)
+            print()
             print("Error on creating the file!!!")
             exit(1)
         else:
+            print()
             print("Created in: ", self.utilities.settingsPath)
             print("Created in: ", self.utilities.settingsImagePath)
 
