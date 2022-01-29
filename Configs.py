@@ -149,6 +149,7 @@ class Configs:
         self.countAds += 1
         now = datetime.now()
         print("Opening ad:", now.strftime("%d/%m/%Y %H:%M:%S"))
+        print()
         cord = pyautogui.center(cord)
         pyautogui.moveTo(cord.x, cord.y, duration=1)
         pyautogui.click(interval=2, button='left', clicks=2)
