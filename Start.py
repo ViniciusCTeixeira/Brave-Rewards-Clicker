@@ -18,7 +18,7 @@ class Main:
             print()
             print("To use the function 'ad in a new tab' Brave must be in focus")
 
-        i = 1
+        i = 15
         while i >= 0:
             print("", end="\r")
             print(i, "second(s) to start", end="\r")
