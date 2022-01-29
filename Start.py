@@ -14,13 +14,13 @@ class Main:
         time.sleep(1)
         self.configs.check_config()
 
-        if sys.platform in ['Windows', 'win32', 'cygwin']:
-            if self.configs.newTabAds:
-                print()
-                print("To use the function 'ad in a new tab' Brave must be in focus")
+        if self.configs.newTabAds:
+            print()
+            print("To use the function 'ad in a new tab' Brave must be in focus")
 
-        i = 15
+        i = 1
         while i >= 0:
+            print("", end="\r")
             print(i, "second(s) to start", end="\r")
             i -= 1
             time.sleep(1)
@@ -28,13 +28,13 @@ class Main:
         print()
 
         while True:
-            if self.configs.check_pixel() is True:
-                self.configs.open_brave_notify()
+            cord = self.configs.check_pixel()
+            if cord is not False:
+                self.configs.open_brave_notify(cord)
 
-            if sys.platform in ['Windows', 'win32', 'cygwin']:
-                if "Brave" in self.utilities.check_fouc():
-                    if self.configs.newTabAds:
-                        self.configs.open_brave_new_tab()
+            if "Brave" in self.utilities.check_fouc():
+                if self.configs.newTabAds:
+                    self.configs.open_brave_new_tab()
 
             time.sleep(1)
 

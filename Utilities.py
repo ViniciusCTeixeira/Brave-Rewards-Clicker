@@ -1,15 +1,23 @@
+import base64
 import json
 import os
-import sys
+import win32gui
 
 
 class Utilities:
     def __init__(self):
         self.rootPath = os.path.abspath(os.curdir)
         self.settingsPath = os.path.join(self.rootPath, "settings.json")
+        self.settingsImagePath = os.path.join(self.rootPath, "brave.png")
 
     def settings_file_exist(self):
-        return os.path.exists(self.settingsPath)
+        if os.path.exists(self.settingsPath):
+            if os.path.exists(self.settingsImagePath):
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def settings_file_version(self, version):
         try:
@@ -47,6 +55,15 @@ class Utilities:
             return False
 
     @staticmethod
+    def create_file_image(path, content):
+        try:
+            f = open(path, 'wb')
+            f.write(base64.b64decode((content)))
+            f.close()
+        except IOError:
+            return False
+
+    @staticmethod
     def load_file(path, isJson=False):
         try:
             f = open(path, "r")
@@ -69,9 +86,7 @@ class Utilities:
     @staticmethod
     def check_fouc():
         active_window_name = None
-        if sys.platform in ['Windows', 'win32', 'cygwin']:
-            import win32gui
-            window = win32gui.GetForegroundWindow()
-            active_window_name = win32gui.GetWindowText(window)
+        window = win32gui.GetForegroundWindow()
+        active_window_name = win32gui.GetWindowText(window)
 
         return active_window_name
